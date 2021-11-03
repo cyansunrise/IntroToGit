@@ -1,0 +1,229 @@
+First create a peronal access token on your github account, if you have already done this you don't need to do it again:
+https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+
+I set mine to never expire because I use git daily, I want github to allow my computer access all the time. Choose what is right for you, but note after the expiration you'll need to set it up again the next time you use git commands.
+
+Next ensure that on line 52 in index.html you have a closing </div> tag and that on line 41 in styles.css there is width: 3000px; 
+
+
+1. Tell git who you are (git config)
+git config --global user.name "Your Name"
+git config --global user.email your@email.com
+
+Check if it worked:
+git config user.name 
+git config user.email 
+
+
+
+2. Two ways to initiate a Project (git init or git clone)
+2a. init:
+ change dir to your project (IntroToGit in this case) using cd Folder ex: cd Doucments
+git init
+git add .
+git commit -m "initial commit"
+
+Navigate to github create new repo and get the https.
+git remote add origin <https> (don't include <>)
+git push -u origin master
+git status
+
+
+2b. clone: ( This is not a code along part, I am demonstrating it so you understand, but to use this command you'd have to clone an existing repository)
+Go to the location where you want to clone the project
+Go to the project repo on github.com and copy the https
+in git bash or terminal:
+git remote add origin <https> (don't include <>)
+git push -u origin master
+git stauts
+
+3. What happens if I push a mistake? (git revert)
+Uncomment mistake code (class="mistake" in index and .mistake in styles.css, I added mistake code and we are going to push it, and then learn how to undo it!)
+git add . 
+git commit -m "index update"
+git push
+
+refresh the index page, view that the mistake is there. Go to github and copy the last commit's id
+or
+git log
+(use q to return to terminal)
+and copy the last commit's id
+git revert <commit>
+type "reverting mistake"
+to return and finalize revert press: esc :wq enter
+git add .
+git push
+git status
+git log
+
+4.Branches (git branch, git checkout <branch>)
+git branch
+git branch feature
+git checkout feature
+
+Uncomment feature code in styles.css
+git add .
+git commit -m "navbar feature"
+git push -u origin feature
+git status
+
+
+5.Merge into master (git merge)
+git checkout master
+git merge feature
+git push
+git status
+
+6.Merge conflicts (git merge --abort, accepting changes and merging)
+Add on line 82 of styles:
+
+em:hover {
+    animation : ease-in-out;
+    animation : ease-in-out;
+    /* Really important comment */
+    /*Not that important comment */
+    color     : rgba(115, 161, 55, 0.5);
+    color     : rgba(115, 161, 55, 0.5);
+    transition: all ease-in-out 200ms;
+    transition: all ease-in-out 200ms;
+    /* Subsequent comments */
+} 
+git add .
+git commit -m "p color change"
+git push
+git status
+
+git branch demobranch
+git checkout demobranch
+
+In styles.css on line 82:
+p {
+    color     : rosybrown;
+    transition: all ease-in-out 500ms;
+}
+
+em:hover {
+    animation : ease-in-out;
+    animation : ease-in-out;
+    /* Really important comment */
+    /*Not that important comment */
+    color     : rgba(115, 161, 55, 0.5);
+    color     : rgba(115, 161, 55, 0.5);
+    transition: all ease-in-out 200ms;
+    transition: all ease-in-out 200ms;
+    /* Subsequent comments */
+}
+
+git add .
+git commit -m "demo feature update"
+git push -u origin demobranch
+git status
+git checkout master
+git merge demobranch
+
+View the conflict in VSCode
+
+git merge --abort
+
+git merge demobranch
+
+click accept incoming changes
+
+git add styles.css
+git commit -m "resolved merge conflicts"
+git push
+git status
+
+7.Another way to merge on branches, to incorporate master branch changes (git rebase)
+git log --oneline
+view the commit structure, the first and last commits specifically, hit q to exit
+git checkout feature
+
+on line 39 hit enter and add:
+<div><em> I am a feature so that you can rebase this branch</em></div>
+
+git log --oneline
+view the commit structure, the first commit to feature specifically should be the same one we saw on master, hit q to exit
+git add .
+git commit -m "rebase code on feature branch"
+git push
+git status
+git log --oneline
+View commit structure again, see last commit.
+git rebase master
+git log --oneline
+View that the structure of feature, it's first commit should now be updated with feature's last commit and masters commits that feature did not have
+q to exit
+
+
+8.What if my remote is ahead of the local version? (git pull)
+On github.com navigate to the repo
+Click Add a readme
+Add:
+
+# Intro to Git Demo Repo
+
+## Repo that was created while learning basic git commands such as:
+
+* init
+* clone
+* add
+* push
+* commit
+* and much more!
+
+## Find the recording [here]()
+
+### Contact
+Email your q's and concerns to: niaapplications@gmail.com
+
+Commit file on github's UI
+return to terminal
+
+git pull
+git status
+View that readme file is now in Vscode, and your local repo version matches the remote
+
+
+9.What the fork? {git joke haha :P} (Forking, Pull requests, Open Source and collaboration)
+Marin is demonstrating this, but here are the steps so that you can also fork and create a pull request to my git repo.
+
+Navigate the the repo you want to fork, hit the fork button
+copy the https from YOUR forked repo
+
+git clone <https>
+make a change to a file. 
+git add <file>
+git commit -m "relevant message"
+git push
+git status
+
+Navigate to your repo, and at the top click pull requests,
+It should be in green and say "New Pull Request"
+create the pull request with a message
+
+On my end I will either accept the pull request if there are no merge conflicts, comment on the request, or decline the request.
+If it is accepted it becomes canon on MY orignial repo's master branch. 
+
+
+Cheat sheet I use: https://www.git-tower.com/blog/git-cheat-sheet/
+
+10. Interactivity
+Fork my repo after I have pushed the interactivity folder. Clone it.
+After cloning it, open it in VSCode and create a new file with the name:
+
+YourFavColor#ofSiblingsYourInitialsYourSunMoonAndRisingSigns.md
+
+Fill in with your favorite color, the # of siblings you have, your initials,Your Sun, Moon and Rising signs.md
+
+If you don't know your sun moon or rising alternatively choose your Hogwarts house, or if you only know you your sun just put that. We just want every file name to be unique so that there are no merge conflicts.
+
+Add whatever you want inside, I wrote about my favorite video game.
+
+git add, git commit and push your changes.
+Then create a pull request.
+On my end I will accept any changes that don't create a conflict and comment/decline the ones that do.
+
+Congratulations you have just successfully contributed to a project that someone else started! Welcome to the world of Open Source Coding!!
+
+
